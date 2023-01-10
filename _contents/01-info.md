@@ -18,7 +18,7 @@ image: ""
 
 Contact emails:
 
-* Support ticketing system: [ticket-csc413-2023-01@teach.cs.toronto.edu](mailto:ticket-csc413-2023-01@teach.cs.toronto.edu)
+* Support ticketing system: [csc413-2023-01@cs.toronto.edu](mailto:csc413-2023-01@cs.toronto.edu)
 * Emergency contact: [csc413-2023-01-tas@cs.toronto.edu](mailto:csc413-2023-01-tas@cs.toronto.edu)
 
 Please do not email the instructor or the TAs about the class directly to their personal accounts. Use the ticketing system for most of the requests, e.g., enrollment, coursework extensions, late submissions, etc.
