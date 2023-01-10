@@ -1,0 +1,18 @@
+title: CSC413/2516 Neural Networks and Deep Learning (Winter 2023)
+description: CSC413/2516-2023 course website
+sitename: uoft-CSC413
+baseurl: '2023'
+sass:
+  sass_dir: /assets/_sass
+  style: :compressed
+collections:
+  - contents
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - LICENSE.txt
+  - CNAME
+markdown: kramdown
+
+theme: jekyll-theme-cayman
