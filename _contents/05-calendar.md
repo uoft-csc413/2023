@@ -30,7 +30,7 @@ Suggested readings included help you understand the course material. They are no
 | *Tutorial&nbsp;8* | Mar 07  | NLP and Transformers  |  | 
 | **Lecture&nbsp;9** | Mar 14  | Large Language Models  |  |  
 | *Tutorial&nbsp;9* | Mar 14  | Large Language Models  |  | 
-| **Lecture&nbsp;10** | Mar 21  | Generative Models of Images |  |  
+| **Lecture&nbsp;10** | Mar 21  | Generative Models of Images and Graph Neural Networks|  |  
 | *Tutorial&nbsp;10* | Mar 21  | GANs, VAEs and Diffusion Models  |  | 
 | **Lecture&nbsp;11** | Mar 28  | Q-learning & the Game of Go |  | 
 | *Tutorial&nbsp;11* | Mar 28  | Policy Gradient and Reinforcement Learning  |  | 

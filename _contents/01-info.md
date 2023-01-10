@@ -15,7 +15,6 @@ image: ""
   * [Jimmy Ba](http://jimmylba.github.com), Tues 5-6pm, PT290C
   * [Bo Wang](https://wanglab.ml/),  Fri 11-noon, 
 
-* Head TA: John Giorgi
 
 Contact emails:
 
