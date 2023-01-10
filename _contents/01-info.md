@@ -12,7 +12,7 @@ image: ""
 **Teaching staff:**  
 
 * Instructor and office hours: 
-  * [Jimmy Ba](http://jimmylba.github.com), Tues 5-6pm, PT290C
+  * [Jimmy Ba](http://jimmylba.github.io), Tues 5-6pm, PT290C
   * [Bo Wang](https://wanglab.ml/),  Fri 11-noon, 
 
 
