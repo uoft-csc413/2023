@@ -8,7 +8,7 @@ image: ""
 
 |           | Handout                | Due
 |-----------|------------------------|---------
-| **Assignment 1**   |   | Jan. 15(out), due Feb. 3
+| **Assignment 1**   | [pdf](assets/assignments/a1.pdf), [starter code](https://colab.research.google.com/github/uoft-csc413/2023/blob/master/assets/assignments/a1-code.ipynb)(make a copy in your own Drive)  | Jan. 15(out), due Feb. 3
 | **Assignment 2**   |   | Jan. 29(out), due Feb. 24
 | **Assignment 3**   |   | Feb. 19(out), due Mar. 11
 | **Assignment 4**   |   | Mar. 19(out), due Apr. 01
