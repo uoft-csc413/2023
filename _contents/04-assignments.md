@@ -12,7 +12,7 @@ image: ""
 | **Assignment 2**   |   | Jan. 29(out), due Feb. 24
 | **Assignment 3**   |   | Feb. 19(out), due Mar. 24
 | **Assignment 4**   |   | Mar. 12(out), due Apr. 07
-| **Course Project**   |       | due Apr. 14
+| **Course Project**   |  [handout](assets/misc/project_handout.pdf)     | due Apr. 14
 
 <br/> 
 
