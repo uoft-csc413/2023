@@ -15,7 +15,7 @@ Suggested readings included help you understand the course material. They are no
 | **Lecture&nbsp;2**| Jan 17  | Multilayer Perceptrons & Backpropagation | [Slides](assets/slides/Lec2.pdf)    | Roger Grosse's notes: [Multilayer Perceptrons](assets/readings/L02a.pdf), [Backpropagation](assets/readings/L02b.pdf)
 | *Tutorial&nbsp;2* | Jan 17  | Autograd and PyTorch |  [ipynb](https://colab.research.google.com/github/uoft-csc413/2023/blob/master/assets/tutorials/tut02_autograd.ipynb)  | iPython notebook: [ipynb](assets/tutorials/tut02_autograd.ipynb), you may view the notebook via [Colab](https://colab.research.google.com/github/uoft-csc413/2023/blob/master/assets/tutorials/tut02_autograd.ipynb). 
 | **Lecture&nbsp;3**| Jan 24  | Distributed Representations & Optimization | [Slides](assets/slides/lec03.pdf)  | Roger Grosse's notes: [Automatic Differentiation](assets/readings/L03a.pdf), [Distributed Representations](assets/readings/L03b.pdf), [Optimization](assets/readings/L03c.pdf)
-| *Tutorial&nbsp;3* | Jan 24  | How to Train Neural Networks  |   |
+| *Tutorial&nbsp;3* | Jan 24  | How to Train Neural Networks  | [Slides](assets/tutorials/tut03_slides.pdf), [ipynb](https://colab.research.google.com/github/uoft-csc413/2023/blob/master/assets/tutorials/tut03_notebook.ipynb) | iPython notebook: [ipynb](assets/tutorials/tut03_notebook.ipynb), you may view the notebook via [Colab](https://colab.research.google.com/github/uoft-csc413/2023/blob/master/assets/tutorials/tut03_notebook.ipynb). 
 | **Lecture&nbsp;4** | Jan 31  | Convolutional Neural Networks and Image Classification  |   |  
 | *Tutorial&nbsp;4* | Jan 31  | Convolutional Neural Networks  |  | 
 | **Lecture&nbsp;5** | Feb 07  | Interpretability and Large-scale Generative Models  |   |  
