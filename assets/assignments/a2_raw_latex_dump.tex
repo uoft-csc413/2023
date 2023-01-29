@@ -1,0 +1,287 @@
+\section{Optimization} \label{sec:opt}
+This week, we will continue investigating the properties of optimization algorithms, focusing on stochastic gradient descent and adaptive gradient descent methods. For a refresher on optimization, refer to: \url{https://uoft-csc413.github.io/2023/assets/slides/lec03.pdf}.
+\vspace{0.5em}
+
+We will continue using the linear regression model established in Homework 1. Given $n$ pairs of input data with $d$ features and scalar labels $(\mathbf{x}_i, t_i) \in \mathbb{R}^d \times \mathbb{R}$, we want to find a linear model $f(\mathbf{x}) = \hat{\mathbf{w}}^T \mathbf{x}$ with $\hat{\mathbf{w}} \in \mathbb{R}^d$ such that the squared error on training data is minimized. Given a data matrix $X \in \mathbb{R}^{n\times d}$ and corresponding labels $\mathbf{t} \in \mathbb{R}^n$, the objective function is defined as:
+
+\begin{equation}
+    \mathcal{L} = \frac{1}{n} \|X \hat{\mathbf{w}} - \mathbf{t} \|^2_2
+\end{equation}
+
+\subsection{Mini-Batch Stochastic Gradient Descent (SGD)}
+Mini-batch SGD performs optimization by taking the average gradient over a mini-batch, denoted $\mathcal{B} \in \mathbb{R}^{b\times d}$, where $1 < b \ll n$. Each training example in the mini-batch, denoted $\mathbf{x}_j \in \mathcal{B}$, is randomly sampled without replacement from the data matrix $X$. Assume that $X$ is full rank. Where $\mathcal{L}$ denotes the loss on $\mathbf{x}_j$, the update for a single step of mini-batch SGD at time $t$ with scalar learning rate $\eta$ is:
+\begin{equation}
+    \mathbf{w}_{t+1} \leftarrow \mathbf{w}_t -  \frac{\eta}{b} \sum_{\mathbf{x}_j \in \mathcal{B}} \nabla_{\mathbf{w}_t} \mathcal{L}(\mathbf{x}_j, \mathbf{w}_t)
+\end{equation}
+Mini-batch SGD iterates by randomly drawing mini-batches and updating model weights using the above equation until convergence is reached.
+
+\subsubsection{Minimum Norm Solution \color{blue}{[2pt]} \LII} \label{sec:SGD}
+Recall Question 3.3 from Homework 1. For an overparameterized linear model, gradient descent starting from zero initialization finds the unique minimum norm solution $\mathbf{w}^*$ such that $X\mathbf{w}^* = \mathbf{t}$. Let $\mathbf{w}_0 = \mathbf{0}$, $d>n$. Assume mini-batch SGD also converges to a solution $\hat{\mathbf{w}}$ such that $X \hat{\mathbf{w}} = \mathbf{t}$. Show that mini-batch SGD solution is identical to the minimum norm solution $\mathbf{w}^*$ obtained by gradient descent, i.e., $\mathbf{\hat{w}} = \mathbf{w}^*$.
+
+{\it Hint}: Be more specific as to what other solutions? Or is $\mathbf{x}_j$  or $\mathcal{B}$ contained in span of $X$? Do the update steps of mini-batch SGD ever leave the span of $X$?
+
+\subsection{Adaptive Methods}
+We now consider the behavior of adaptive gradient descent methods. In particular, we will investigate the RMSProp method. Let $w_i$ denote the $i$-th parameter. A scalar learning rate $\eta$ is used. At time $t$ for parameter $i$, the update step for RMSProp is shown by:
+\begin{align}
+    w_{i, t+1} &= w_{i, t} - \frac{\eta}{\sqrt{v_{i, t}} + \epsilon} \nabla_{w_{i,t}} \loss (w_{i, t}) \\
+    v_{i, t} &= \beta(v_{i, t-1}) + (1-\beta) (\nabla_{w_{i,t}} \loss (w_{i,t}))^2
+    \label{eq:RMSProp}
+\end{align}
+We begin the iteration at $t=0$, and set $v_{i,-1} = 0$. The term $\epsilon$ is a fixed small scalar used for numerical stability. The momentum parameter $\beta$ is typically set such that $ \beta \geq 0.9$ Intuitively, RMSProp adapts a separate learning rate in each dimension to efficiently move through badly formed curvatures (see lecture slides/notes). 
+
+\subsubsection{Minimum Norm Solution {\color{blue}[1pt]} \LI}
+Consider the overparameterized linear model ($d>n$) for the loss function defined in Section \ref{sec:opt}. Assume the RMSProp optimizer converges to a solution. Provide a proof or counterexample for whether RMSProp always obtains the minimum norm solution.
+
+{\it Hint}: Compute a simple 2D case. Let $\mathbf{x}_1 = [2, 1]$, $w_0 = [0,0]$, $t = [2]$.
+
+\subsubsection{[0pt] \LI}
+Consider the result from the previous section. Does this result hold true for other adaptive methods (Adagrad, Adam) in general? Why might making learning rates independent per dimension be desirable?
+
+\section {Gradient-based Hyper-parameter Optimization}
+    In this problem, we will implement a simple toy example of {\it gradient-based hyper-parameter optimization}, introduced in \href{https://uoft-csc413.github.io/2023/assets/slides/lec03.pdf}{Lecture 3}. 
+    
+    Often in practice, hyper-parameters are chosen by trial-and-error based on a model evaluation criterion. Instead, {\textit gradient-based hyper-parameter optimization} computes gradient of the evaluation criterion w.r.t. the hyper-parameters and uses this gradient to directly optimize for the best set of hyper-parameters. For this problem, we will optimize for the learning rate of gradient descent in a regularized linear regression problem.
+    
+    Specifically, given $n$ pairs of input data with $d$ features and scalar label $(\mathbf{x}_i,t_i)\in\mathbb{R} ^{d}\times\mathbb{R}$, we wish to find a linear model $f(\mathbf{x}) = \hat{\mathbf{w}}^\top\mathbf{x}$ with $\hat{\mathbf{w}}\in\mathbb{R}^d$ and a L2 penalty, $\lambda \|\hat{\mathbf{w}}^2_2\|$, that minimizes the squared error of prediction on the training samples. $\lambda$ is a hyperparameter that modulates the impact of the L2 regularization on the loss function. Using the concise notation for the data matrix $X \in \mathbb{R}^{n \times d}$ and the corresponding label vector $\mathbf{t} \in \mathbb{R}^n$, the squared error loss can be written as:
+        \begin{align*}
+            \Tilde{\loss}
+        =   
+             \frac{1}{n}\| X \hat{\mathbf{w}} - \mathbf{t} \|_2^2 + \lambda \|\hat{\mathbf{w}}\|_2^2.
+        \end{align*}
+        
+    Starting with an initial weight parameters $\mathbf{w}_0$, gradient descent (GD) updates $\mathbf{w}_0$ with a learning rate $\eta$ for $t$ number of iterations. Let's denote the weights after $t$ iterations of GD as $\mathbf{w}_t$, the loss as $\loss_t$, and its gradient as $\nabla_{\mathbf{w}_t}$. The goal is the find the optimal learning rate by following the gradient of $\loss_t$ w.r.t. the learning rate $\eta$.
+    
+    \subsection{Computation Graph} 
+        \subsubsection{{\color{blue}[0.5pt]} \LIV}
+        Consider a case of 2 GD iterations. Draw the computation graph to obtain the final loss $\Tilde{\loss_2}$ in terms of $\mathbf{w}_0, \nabla_{\mathbf{w}_0} \Tilde{\loss_0}, \Tilde{\loss_0}, \mathbf{w}_1, \Tilde{\loss_1}, \nabla_{\mathbf{w}_1} \Tilde{\loss_1}, \mathbf{w}_2, \Tilde{\lambda}$ and $\eta$.
+   
+        \subsubsection{{\color{blue}[0.5pt]} \LI} 
+        Then, consider a case of $t$ iterations of GD. What is the memory complexity for the forward-propagation in terms of $t$? What is the memory complexity for using the standard back-propagation to compute the gradient w.r.t. the learning rate, $\nabla_{\eta} \Tilde{\loss_t}$ in terms of $t$? \\
+        \textit{Hint}: Express your answer in the form of $\mathcal{O}$ in terms of $t$.
+        
+        \subsubsection{[0pt] \LI}
+        Explain one potential problem for applying gradient-based hyper-parameter optimization in more realistic examples where models often take many iterations to converge.
+        
+    \subsection{Optimal Learning Rates}
+    In this section, we will take a closer look at the gradient w.r.t. the learning rate. To simplify the computation for this section, consider an unregularized loss function of the form $\loss = \frac{1}{n}\| X \hat{\mathbf{w}} - \mathbf{t} \|_2^2.$ Let's start with the case with only one GD iteration, where GD updates the model weights from $\mathbf{w}_0$ to $\mathbf{w}_1$. 
+    
+         \subsubsection{{\color{blue}[1pt]} \LII} 
+        Write down the expression of $\mathbf{w}_1$ in terms of $\mathbf{w}_0$, $\eta$, $\mathbf{t}$ and $X$. Then use the expression to derive the loss $\loss_1$ in terms of $\eta$. \\
+        {\it Hint}: If the expression gets too messy, introduce a constant vector $\mathbf{a} = X \mathbf{w}_0 - \mathbf{t}$
+        
+        \subsubsection{[0pt] \LIII}    
+         Determine if $\loss_1$ is convex w.r.t. the learning rate $\eta$. \\
+        {\it Hint}: A function is \textit{convex} if its second order derivative is positive
+         
+         \subsubsection{{\color{blue}[1pt]} \LII} 
+         Write down the derivative of $\loss_1$ w.r.t. $\eta$ and use it to find the optimal learning rate $\eta^*$ that minimizes the loss after one GD iteration. Show your work.
+
+    \subsection{Weight decay and L2 regularization}
+    Although well studied in statistics, L2 regularization is usually replaced with explicit weight decay in modern neural network architectures: 
+    
+    \begin{align}
+        \mathbf{w}_{i+1} = (1 - \lambda)\mathbf{w}_{i} - \eta \nabla \loss_i(X)
+        \label{eq:weight_decay}
+    \end{align}
+    
+    In this question you will compare regularized regression of the form $\Tilde{\loss} = \frac{1}{n}\| X \hat{\mathbf{w}} - \mathbf{t} \|_2^2 + \Tilde{\lambda} \|\hat{\mathbf{w}}\|_2^2$ with unregularized loss, $\loss = \frac{1}{n}\| X \hat{\mathbf{w}} - \mathbf{t} \|_2^2$, accompanied by weight decay (equation \ref{eq:weight_decay}).
+    
+    \subsubsection{{\color{blue}[0.5pt]} \LIII} 
+    Write down two expressions for $\mathbf{w}_1$ in terms of $\mathbf{w}_0$, $\eta$, $\mathbf{t}$, $\lambda$, $\Tilde{\lambda}$, and $X$. The first one using $\Tilde{\loss}$, the second with $\loss$ and weight decay.\\
+
+    \subsubsection{{\color{blue}[0.5pt]} \LIII}
+
+    How can you express $\Tilde{\lambda}$ (corresponding to L2 loss) so that it is equivalent to $\lambda$ (corresponding to weight decay)? \\ \textit{Hint}: Think about how you can express $\Tilde{\lambda}$ in terms of $\lambda$ and another hyperparameter.\\
+
+    \subsubsection{[0pt] \LI}
+    Adaptive gradient update methods like RMSprop (equation \ref{eq:RMSProp}) modulate the learning rate for each weight individually. Can you describe how L2 regularization is different from weight decay when adaptive gradient methods are used? In practice it has been shown that for adaptive gradients methods weight decay is more successful than l2 regularization.\\
+
+    
+\section{Convolutional Neural Networks}
+The last set of questions aims to build basic familiarity with convolutional neural networks (CNNs). 
+
+\subsection{Convolutional Filters {\color{blue}[0.5pt] \LIV}} \label{sec:filter}
+Given the input matrix $\mathbf{I}$ and filter $\mathbf{J}$ shown below, compute $\mathbf{I * J}$, the output of the convolution operation (as defined in lecture 4). Assume zero padding is used such that the input and output are of the same dimension. What feature does this convolutional filter detect?
+
+\begin{equation*}
+\mathbf{I} = \begin{bmatrix*}[r]
+0 & 0 & 0 & 0 & 0 \\
+0 & 0 & 1 & 1 & 1 \\
+1 & 1 & 1 & 1 & 0 \\
+0 & 1 & 1 & 1 & 0 \\
+0 & 0 & 1 & 0 & 0
+\end{bmatrix*}
+\hspace{2em}
+\mathbf{J} = \begin{bmatrix*}[r]
+0 & -1 & 0 \\
+-1 & 5 & -1 \\
+0 & -1 & 0\
+\end{bmatrix*}
+\hspace{2em}
+\mathbf{I * J} =  
+\begin{bmatrix*}[r]
+? & ? & ? & ? & ? \\
+? & ? & ? & ? & ? \\
+? & ? & ? & ? & ? \\
+? & ? & ? & ? & ? \\
+? & ? & ? & ? & ?
+\end{bmatrix*}
+\end{equation*}
+
+\subsection{Size of Conv Nets {\color{blue}[1pt] \LIII}}
+CNNs provides several advantages over fully connected neural networks (FCNNs) when applied to image data. In particular, FCNNs do not scale well to high dimensional image data, which you will demonstrate below. Consider the following CNN architecture on the left:
+\vspace{1em}
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{figures/conv-and-fcnn.png}
+\end{center}
+\vspace{-1em}
+The input image has dimension $32 \times 32$ and is RGB (three channel). For ease of computation, assume all convolutional layers only have 1 output channel, and use $3 \times 3$ kernels. Assume zero padding is used in convolutional layers such that the output dimension is equal to the input dimension. Each max pooling layer has a filter size of $2 \times 2$ and a stride of $2$. Furthermore, ignore all bias terms.
+
+We consider an alternative architecture, shown on the right, which replaces convolutional layers with fully connected (FC) layers in an otherwise identical architecture. For both the CNN architecture and the FCNN architecture, compute the total number of neurons in the network, and the total number of trainable parameters. You should report four numbers in total. Finally, name one disadvantage of having more trainable parameters.
+
+\subsection{Receptive Fields {\color{blue}[0.5pt] \LI}}
+The receptive field of a neuron in a CNN is the area of the image input that can affect the neuron (i.e. the area a neuron can `see'). For example, a neuron in a $3 \times 3$ convolutional layer is computed from an input area of $3\times 3$ of the input, so it's receptive field is $3\times 3$. However, as we go deeper into the CNN, the receptive field increases.  One helpful resource to visualize receptive fields can be found at: \url{https://distill.pub/2019/computing-receptive-fields/}. 
+
+List 3 things that can affect the size of the receptive field of a neuron and briefly explain your answers.
+
+
+\section*{Image Colourization as Classification}
+
+In this section, we will perform image colourization using three convolutional neural networks (Figure \ref{fig:colourization-nets}). 
+Given a grayscale image, we wish to predict the color of each pixel. 
+We have provided a subset of 24 output colours, selected using k-means clustering\footnote{\url{https://en.wikipedia.org/wiki/K-means\_clustering}}. 
+The colourization task will be framed as a pixel-wise classification problem, where we will label each pixel with one of the 24 colours. 
+For simplicity, we measure distance in RGB space. 
+This is not ideal but reduces the software dependencies for this assignment. 
+    
+We will use the CIFAR-10 data set, which consists of images of size 32x32 pixels. 
+For most of the questions we will use a subset of the dataset. 
+The data loading script is included with the notebooks, and should download automatically the first time it is loaded.
+    
+Helper code for Section 4 is provided in \submitCodeFile, which will define the main training loop as well as utilities for data manipulation. 
+Run the helper code to setup for this question and answer the following questions.
+
+\begin{figure}[htbp]
+  \centering
+  \begin{subfigure}[b]{0.3\textwidth}
+    \centering
+    \includegraphics[height=4.5in]{figures/pool-upsample.pdf}
+    \caption{\texttt{PoolUpsampleNet}}
+    \label{fig:pool-upsample-net}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.3\textwidth}
+    \centering
+    \includegraphics[height=4.5in]{figures/conv-transpose.pdf}
+    \caption{\texttt{ConvTransposeNet}}
+    \label{fig:conv-transpose-net}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.3\textwidth}
+    \centering
+    \includegraphics[height=4.5in]{figures/unet.pdf}
+    \caption{\texttt{UNet}}
+    \label{fig:unet}
+  \end{subfigure}
+  \caption{Three network architectures that we will be using for image colourization. Numbers inside square brackets denote the shape of the tensor produced by each layer: \textbf{BS}: batch size, \textbf{NIC}: \texttt{num\_in\_channels}, \textbf{NF}: \texttt{num\_filters}, \textbf{NC}: \texttt{num\_colours}.}
+  \label{fig:colourization-nets}
+\end{figure}
+
+\section{Pooling and Upsampling}
+
+\subsection{{\color{blue}[0.5pt] \LI}}
+
+Complete the model \texttt{PoolUpsampleNet}, following the diagram in Figure \ref{fig:pool-upsample-net}. 
+Use the PyTorch layers \texttt{nn.Conv2d}, \texttt{nn.ReLU}, \texttt{nn.BatchNorm2d}\footnote{\url{https://gauthamkumaran.com/batchnormalization/amp/}}, \texttt{nn.Upsample}\footnote{\url{https://machinethink.net/blog/coreml-upsampling/}}, and \texttt{nn.MaxPool2d}. 
+Your CNN should be configurable by parameters \texttt{kernel}, \texttt{num\_in\_channels}, \texttt{num\_filters}, and \texttt{num\_colours}. 
+In the diagram, \texttt{num\_in\_channels}, \texttt{num\_filters} and \texttt{num\_colours} are denoted \textbf{NIC}, \textbf{NF} and \textbf{NC} respectively. 
+Use the following parameterizations (if not specified, assume default parameters):
+
+\begin{itemize}
+  \item \texttt{nn.Conv2d}: The number of input filters should match the second dimension of the \textit{input} tensor (e.g. the first \texttt{nn.Conv2d} layer has \textbf{NIC} input filters). The number of output filters should match the second dimension of the \textit{output} tensor (e.g. the first \texttt{nn.Conv2d} layer has \textbf{NF} output filters). Set kernel size to parameter \texttt{kernel}. Set padding to the \texttt{padding} variable included in the starter code.
+  \item \texttt{nn.BatchNorm2d}: The number of features should match the second dimension of the output tensor (e.g. the first \texttt{nn.BatchNorm2d} layer has \textbf{NF} features).
+  \item \texttt{nn.Upsample}: Use \texttt{scaling\_factor = 2}.
+  \item \texttt{nn.MaxPool2d}: Use \texttt{kernel\_size = 2}.
+\end{itemize}
+
+Note: grouping layers according to the diagram (those not separated by white space) using the \texttt{nn.Sequential} containers will aid implementation of the \texttt{forward} method.
+
+\subsection{{\color{blue}[0.5pt] \LIV}}
+
+Run main training loop of \texttt{PoolUpsampleNet}. This will train the CNN for a few epochs using the cross-entropy objective. It will generate some images showing the trained result at the end. Do these results look good to you? Why or why not?
+
+\subsection{{\color{blue}[1.0pt] \LIII}}
+
+Compute the number of weights, outputs, and connections in the model, as a function of \textbf{NIC}, \textbf{NF} and \textbf{NC}. Compute these values when each input dimension (width/height) is doubled. Report all 6 values. 
+
+Note: 
+\begin{enumerate}
+  \item Please ignore biases when answering the questions.
+  \item Please ignore \texttt{nn.BatchNorm2d} when answering the number of weights, outputs and connections, but we still accept answers that do.
+\end{enumerate}
+
+Hint: 
+\begin{enumerate}
+  \item \texttt{nn.Upsample} does not have parameters (this will help you answer the number of weights). 
+  \item Think about when the input width and height are both doubled, how will the dimension of feature maps in each layer change? If you know this, you will know how dimension scaling will affect the number of outputs and connections.
+\end{enumerate}
+
+          
+\section{Strided and Transposed Dilated Convolutions [2 pts]}
+
+For this part, instead of using \texttt{nn.MaxPool2d} layers to reduce the dimensionality of the tensors, we will increase the step size of the preceding \texttt{nn.Conv2d} layers, and instead of using \texttt{nn.Upsample} layers to increase the dimensionality of the tensors, we will use \textit{transposed} convolutions. 
+Transposed convolutions aim to apply the same operations as convolutions but in the opposite direction. 
+For example, while increasing the stride from 1 to 2 in a convolution forces the filters to skip over every other position as they slide across the input tensor, increasing the stride from 1 to 2 in a transposed convolution adds ``empty'' space around each element of the input tensor, as if reversing the skipping over every other position done by the convolution. 
+We will be using a \texttt{dilation rate of 1} for the transposed convolution. 
+Excellent visualizations of convolutions and transposed convolutions have been developed by \cite{dumoulin2018guide} and can be found on their GitHub page\footnote{\url{https://github.com/vdumoulin/conv\_arithmetic}}.
+
+\subsection{{\color{blue}[0.5pt] \LI}}
+
+Complete the model \texttt{ConvTransposeNet}, following the diagram in Figure \ref{fig:conv-transpose-net}. Use the PyTorch layers \texttt{nn.Conv2d}, \texttt{nn.ReLU}, \texttt{nn.BatchNorm2d} and \texttt{nn.ConvTranspose2d}. As before, your CNN should be configurable by parameters \texttt{kernel}, \texttt{dilation}, \texttt{num\_in\_channels}, \texttt{num\_filters}, and \texttt{num\_colours}. Use the following parameterizations (if not specified, assume default parameters):
+
+\begin{itemize}
+  \item \texttt{nn.Conv2d}: The number of input and output filters, and the kernel size, should be set in the same way as Section 4. For the first two \texttt{nn.Conv2d} layers, set \texttt{stride} to 2 and set \texttt{padding} to 1.
+  \item \texttt{nn.BatchNorm2d}: The number of features should be specified in the same way as for Section 4.
+  \item \texttt{nn.ConvTranspose2d}: The number of input filters should match the second dimension of the \textit{input} tensor. The number of output filters should match the second dimension of the \textit{output} tensor. Set \texttt{kernel\_size} to parameter \texttt{kernel}. Set \texttt{stride} to 2, set \texttt{dilation} to 1, and set both \texttt{padding} and \texttt{output\_padding} to 1.
+\end{itemize}
+
+\subsection{{\color{blue}[0.5pt] \LIV}}
+
+Train the model for at least 25 epochs using a batch size of 100 and a kernel size of 3.  Plot the training curve, and include this plot in your write-up.
+
+\subsection{{\color{blue}[0.5pt] \LIII}}
+
+How do the results compare to Section 4? Does the \texttt{ConvTransposeNet} model result in lower validation loss than the \texttt{PoolUpsampleNet}? Why may this be the case?
+
+\subsection{{\color{blue}[0.5pt] \LIII}}
+
+How would the \texttt{padding} parameter passed to the first two \texttt{nn.Conv2d} layers, and the \texttt{padding} and \texttt{output\_padding} parameters passed to the \texttt{nn.ConvTranspose2d} layers, need to be modified if we were to use a kernel size of 4 or 5 (assuming we want to maintain the shapes of all tensors shown in Figure \ref{fig:conv-transpose-net})?
+Note: PyTorch documentation for \texttt{nn.Conv2d}\footnote{\url{https://pytorch.org/docs/stable/generated/torch.nn.Conv2d.html}} and \texttt{nn.ConvTranspose2d}\footnote{\url{https://pytorch.org/docs/stable/generated/torch.nn.ConvTranspose2d.html}} includes equations that can be used to calculate the shape of the output tensors given the parameters.
+
+\subsection{{\color{blue}[0pt] \LIV}}
+
+Re-train a few more \texttt{ConvTransposeNet} models using different batch sizes (e.g., 32, 64, 128, 256, 512) with a fixed number of epochs. Describe the effect of batch sizes on the training/validation loss, and the final image output quality. You do \textit{not} need to attach the final output images.
+
+\section{Skip Connections}
+
+A skip connection in a neural network is a connection which skips one or more layer and connects to a later layer. 
+We will introduce skip connections to the model we implemented in Section 5.
+
+\subsection{{\color{blue}[0.5pt]} \LI}
+
+Add a skip connection from the first layer to the last, second layer to the second last, etc. 
+That is, the final convolution should have both the output of the previous layer and the initial greyscale input as input (see Figure \ref{fig:unet}). 
+This type of skip-connection is introduced by \cite{ronneberger2015u}, and is called a ``UNet''. 
+Following the \texttt{ConvTransposeNet} class that you have completed, complete the \texttt{\_\_init\_\_} and \texttt{forward} methods of the \texttt{UNet} class in Section 6 of the notebook.
+Hint: You will need to use the function \texttt{torch.cat}.
+
+\subsection{{\color{blue}[0.5pt]} \LIV}
+
+Train the model for at least 25 epochs using a batch size of 100 and a kernel size of 3. Plot the training curve, and include this plot in your write-up.
+
+\subsection{{\color{blue}[1.0pt]} \LIII}
+
+How does the result compare to the previous model? 
+Did skip connections improve the validation loss and accuracy? 
+Did the skip connections improve the output qualitatively? How? 
+Give at least two reasons why skip connections might improve the performance of our CNN models.
