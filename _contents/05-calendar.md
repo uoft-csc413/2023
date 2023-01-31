@@ -16,12 +16,12 @@ Suggested readings included help you understand the course material. They are no
 | *Tutorial&nbsp;2* | Jan 17  | Autograd and PyTorch |  [ipynb](https://colab.research.google.com/github/uoft-csc413/2023/blob/master/assets/tutorials/tut02_autograd.ipynb)  | iPython notebook: [ipynb](assets/tutorials/tut02_autograd.ipynb), you may view the notebook via [Colab](https://colab.research.google.com/github/uoft-csc413/2023/blob/master/assets/tutorials/tut02_autograd.ipynb). 
 | **Lecture&nbsp;3**| Jan 24  | Distributed Representations & Optimization | [Slides](assets/slides/lec03.pdf)  | Roger Grosse's notes: [Automatic Differentiation](assets/readings/L03a.pdf), [Distributed Representations](assets/readings/L03b.pdf), [Optimization](assets/readings/L03c.pdf)
 | *Tutorial&nbsp;3* | Jan 24  | How to Train Neural Networks  | [Slides](assets/tutorials/tut03_slides.pdf), [ipynb](https://colab.research.google.com/github/uoft-csc413/2023/blob/master/assets/tutorials/tut03_notebook.ipynb) | iPython notebook: [ipynb](assets/tutorials/tut03_notebook.ipynb), you may view the notebook via [Colab](https://colab.research.google.com/github/uoft-csc413/2023/blob/master/assets/tutorials/tut03_notebook.ipynb). 
-| **Lecture&nbsp;4** | Jan 31  | Convolutional Neural Networks and Image Classification  | [Slides](assets/slides/Lec04.pdf)  |  
+| **Lecture&nbsp;4** | Jan 31  | Convolutional Neural Networks and Image Classification  | [Slides](assets/slides/Lec04.pdf)  |  Roger Grosse's notes: [ConvNets](assets/readings/L04a.pdf), [Image Classification](assets/readings/L04b.pdf). Related papers: [Yann LeCun’s 1998 LeNet](assets/readings/lecun-98.pdf), [AlexNet](assets/readings/AlexNet.pdf).
 | *Tutorial&nbsp;4* | Jan 31  | Convolutional Neural Networks  | [ipynb](https://colab.research.google.com/github/uoft-csc413/2023/blob/master/assets/tutorials/tut04_cnn.ipynb) | iPython notebook: [ipynb](assets/tutorials/tut04_cnn.ipynb), you may view the notebook via [Colab](https://colab.research.google.com/github/uoft-csc413/2023/blob/master/assets/tutorials/tut04_cnn.ipynb). 
-| **Lecture&nbsp;5** | Feb 07  | Interpretability and Large-scale Generative Models  |   |  
+| **Lecture&nbsp;5** | Feb 07  | Optimization & Generalization |   |  
 | *Tutorial&nbsp;5* | Feb 07  | How to Write a Good Course Project Report  |   | 
 | **Midterm Quiz** | Feb 09  |   |  | 
-| **Lecture&nbsp;6** | Feb 14  | Optimization & Generalization  |   |  
+| **Lecture&nbsp;6** | Feb 14  | Interpretability and Large-scale Generative Models   |   |  
 | *Tutorial&nbsp;6* | Feb 14  | Best Practices of ConvNet Applications  |  | 
 | **Reading Week** | Feb 21  |   |  | 
 | **Lecture&nbsp;7** | Feb 28  | Recurrent Neural Networks and Attention |   |  
