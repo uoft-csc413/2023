@@ -19,7 +19,7 @@ Suggested readings included help you understand the course material. They are no
 | **Lecture&nbsp;4** | Jan 31  | Convolutional Neural Networks and Image Classification  | [Slides](assets/slides/Lec04.pdf)  |  Roger Grosse's notes: [ConvNets](assets/readings/L04a.pdf), [Image Classification](assets/readings/L04b.pdf). Related papers: [Yann LeCun’s 1998 LeNet](assets/readings/lecun-98.pdf), [AlexNet](assets/readings/AlexNet.pdf).
 | *Tutorial&nbsp;4* | Jan 31  | Convolutional Neural Networks  | [ipynb](https://colab.research.google.com/github/uoft-csc413/2023/blob/master/assets/tutorials/tut04_cnn.ipynb) | iPython notebook: [ipynb](assets/tutorials/tut04_cnn.ipynb), you may view the notebook via [Colab](https://colab.research.google.com/github/uoft-csc413/2023/blob/master/assets/tutorials/tut04_cnn.ipynb). 
 | **Lecture&nbsp;5** | Feb 07  | Optimization & Generalization |   |  
-| *Tutorial&nbsp;5* | Feb 07  | How to Write a Good Course Project Report  |   | 
+| *Tutorial&nbsp;5* | Feb 07  | How to Write a Good Course Project Report  |  [Slides](assets/tutorials/tut05_slides.pdf) | 
 | **Midterm Quiz** | Feb 09  |   |  | 
 | **Lecture&nbsp;6** | Feb 14  | Interpretability and Large-scale Generative Models   |   |  
 | *Tutorial&nbsp;6* | Feb 14  | Best Practices of ConvNet Applications  |  | 
