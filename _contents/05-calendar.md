@@ -22,7 +22,7 @@ Suggested readings included help you understand the course material. They are no
 | *Tutorial&nbsp;5* | Feb 07  | How to Write a Good Course Project Report  |  [Slides](assets/tutorials/tut05_slides.pdf) | 
 | **Midterm Quiz** | Feb 09  |   |  | 
 | **Lecture&nbsp;6** | Feb 14  | Interpretability and Large-scale Generative Models   |   |  
-| *Tutorial&nbsp;6* | Feb 14  | Best Practices of ConvNet Applications  |  | 
+| *Tutorial&nbsp;6* | Feb 14  | Best Practices of ConvNet Applications  |  [Slides](assets/tutorials/tut06_slides.pdf) | 
 | **Reading Week** | Feb 21  |   |  | 
 | **Lecture&nbsp;7** | Feb 28  | Recurrent Neural Networks and Attention |   |  
 | *Tutorial&nbsp;7* | Feb 28  | Recurrent Neural Networks  | |  | 
