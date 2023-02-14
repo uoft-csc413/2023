@@ -21,7 +21,7 @@ Suggested readings included help you understand the course material. They are no
 | **Lecture&nbsp;5** | Feb 07  | Optimization & Generalization |  [Slides](assets/slides/Lec05.pdf)  |  Roger Grosse’s notes: [Generalization](https://csc413-uoft.github.io/2021/assets/readings/L06a.pdf), [Exploding Vanishing Gradients](https://csc413-uoft.github.io/2021/assets/readings/L06b.pdf). Related papers: [Dropout](https://jmlr.org/papers/v15/srivastava14a.html), [ResNet](https://arxiv.org/abs/1512.03385)
 | *Tutorial&nbsp;5* | Feb 07  | How to Write a Good Course Project Report  |  [Slides](assets/tutorials/tut05_slides.pdf) | 
 | **Midterm Quiz** | Feb 09  |   |  | 
-| **Lecture&nbsp;6** | Feb 14  | Interpretability and Large-scale Generative Models   |   |  
+| **Lecture&nbsp;6** | Feb 14  | Interpretability and Large-scale Generative Models   |   [Slides](assets/slides/Lec06.pdf)    |  
 | *Tutorial&nbsp;6* | Feb 14  | Best Practices of ConvNet Applications  |  [Slides](assets/tutorials/tut06_slides.pdf) | 
 | **Reading Week** | Feb 21  |   |  | 
 | **Lecture&nbsp;7** | Feb 28  | Recurrent Neural Networks and Attention |   |  
