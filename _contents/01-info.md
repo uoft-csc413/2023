@@ -14,7 +14,7 @@ image: ""
 * Instructor and office hours: 
   * [Jimmy Ba](http://jimmylba.github.io), Tues 5-6pm, PT290C
   * [Bo Wang](https://wanglab.ml/),  Fri 11-noon, 
-
+* Head TA: John Giorgi and Rex Ma
 
 Contact emails:
 
