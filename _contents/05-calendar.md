@@ -25,7 +25,7 @@ Suggested readings included help you understand the course material. They are no
 | *Tutorial&nbsp;6* | Feb 14  | Best Practices of ConvNet Applications  |  [Slides](assets/tutorials/tut06_slides.pdf) | 
 | **Reading Week** | Feb 21  |   |  | 
 | **Lecture&nbsp;7** | Feb 28  | Recurrent Neural Networks and Attention | [Slides](assets/slides/lec07.pdf)  |  Roger Grosse's notes: [RNNs](assets/readings/L07a.pdf), [Exploding Vanishing Gradients](assets/readings/L07b.pdf). Related papers: [LSTM](https://www.bioinf.jku.at/publications/older/2604.pdf), [ResNet](https://arxiv.org/abs/1512.03385), [Neural machine translation](https://arxiv.org/pdf/1409.0473), [Show, attend and tell](https://arxiv.org/abs/1502.03044)  
-| *Tutorial&nbsp;7* | Feb 28  | Recurrent Neural Networks  | |  | 
+| *Tutorial&nbsp;7* | Feb 28  | Recurrent Neural Networks  | [ipynb](https://colab.research.google.com/github/uoft-csc413/2023/blob/master/assets/tutorials/tut07_rnns.ipynb)  | iPython notebook: [ipynb](assets/tutorials/tut07_rnns.ipynb), you may view the notebook via [Colab](https://colab.research.google.com/github/uoft-csc413/2023/blob/master/assets/tutorials/tut07_rnns.ipynb). | 
 | **Lecture&nbsp;8** | Mar 07  | Transformers and Autoregressive Models|    |  
 | *Tutorial&nbsp;8* | Mar 07  | NLP and Transformers  |  | 
 | **Lecture&nbsp;9** | Mar 14  | Large Language Models  |  |  
