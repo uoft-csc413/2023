@@ -11,3 +11,4 @@ image: ""
  - **Feb 2**: Assignment 2 [handout](assets/assignments/a2.pdf) updated to Version 1.1
  - **Feb 9**: Assignment 2 [handout](assets/assignments/a2.pdf) updated to Version 1.2
  - **Feb 14**: Assignment 2 [handout](assets/assignments/a2.pdf) updated to Version 1.3
+ - **Mar 4**: Assignment 3 [handout](assets/assignments/a3.pdf) and the starter code [nmt.ipynb](https://colab.research.google.com/github/uoft-csc413/2023/blob/master/assets/assignments/nmt.ipynb), [bert.ipynb](https://colab.research.google.com/github/uoft-csc413/2023/blob/master/assets/assignments/bert.ipynb), [clip.ipynb](https://colab.research.google.com/github/uoft-csc413/2023/blob/master/assets/assignments/clip.ipynb) are up. Assignment 3 is now due Mar 31st. 
