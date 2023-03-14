@@ -29,7 +29,7 @@ Suggested readings included help you understand the course material. They are no
 | **Lecture&nbsp;8** | Mar 07  | Transformers and Autoregressive Models|   [Slides](assets/slides/Lec08.pdf)   |  Related papers: [Transformers](https://papers.nips.cc/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf), [BERT pre-training](https://arxiv.org/pdf/1810.04805.pdf), [PixelRNNs](https://arxiv.org/abs/1601.06759), [WaveNet](https://arxiv.org/abs/1609.03499), [PixelCNNs](https://arxiv.org/abs/1606.05328).
 | *Tutorial&nbsp;8* | Mar 07  | NLP and Transformers  | [(Google) Slides](https://docs.google.com/presentation/d/1GlOEERsbu71LhpT1L-nMcDtOAwgg8DPScbNkjF989zc/edit?usp=sharing) | 
 | **Lecture&nbsp;9** | Mar 14  | Large Language Models  | [Slides](assets/slides/lec09.pdf) |  
-| *Tutorial&nbsp;9* | Mar 14  | Large Language Models  |  | 
+| *Tutorial&nbsp;9* | Mar 14  | Large Language Models  | [Slides](assets/tutorials/tut09_llm.pdf) | 
 | **Lecture&nbsp;10** | Mar 21  | Generative Models of Images and Graph Neural Networks|  |  
 | *Tutorial&nbsp;10* | Mar 21  | GANs, VAEs and Diffusion Models  |  | 
 | **Lecture&nbsp;11** | Mar 28  | Q-learning & the Game of Go |  | 
