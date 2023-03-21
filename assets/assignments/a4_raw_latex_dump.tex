@@ -1,0 +1,162 @@
+\section{RNNs and Self Attention}
+For any successful deep learning system, choosing the right network architecture is as important as choosing a good learning algorithm. In this question, we will explore how various architectural choices can have a significant impact on learning. We will analyze the learning performance from the perspective of vanishing /exploding gradients as they are backpropagated from the final layer to the first.
+
+\subsection{Warmup: A Single Neuron RNN}
+Consider an $n$ layered fully connected network that has scalar inputs and outputs. For now, assume that all the hidden layers have a single unit, and that the weight matrices are set to $1$ (because each hidden layer has a single unit, the weight matrices have a dimensionality of $\mathbb{R}^{1\times1}$). 
+
+\subsubsection{Effect of Activation - ReLU [0pt]}
+\label{ss:relu}
+
+Lets say we're using the ReLU activation. 
+Let $x$ be the input to the network and let $f: \mathbb{R}^{1} \rightarrow \mathbb{R}^{1}$ be the function the network is computing. Do the gradients necessarily have to vanish or explode as they are backpropagated? Answer this by showing that $0 \leq |\frac{\partial f(x)}{\partial x}| \leq  1$. \\
+
+\subsubsection{Effect of Activation - Different weights {\color{blue} [0.5pt]} \LI}
+\label{ss:tanh}
+Solve the problem in \ref{ss:relu} by assuming now the weights are not $1$. You can assume that the $i$-th hidden layer has weight $w_i$. Do the gradients necessarily have to vanish or explode as they are backpropagated? Answer this by deriving a similar bound as in Sec~\ref{ss:relu} for the magnitude of the gradient. 
+
+\subsection{Matrices and RNN}
+We will now analyze the recurrent weight matrices under Singular Value Decomposition. 
+SVD is one of the most important results in all of linear algebra. It says that any real matrix $M \in \mathbb{R}^{mxn}$ can be written as $M = U \Sigma V^{T}$ where $U \in \mathbb{R}^{mxm}$ and $V \in \mathbb{R}^{nxn}$ are square orthogonal matrices, and $\Sigma \in \mathbb{R}^{mxn}$ is a rectangular diagonal matrix with nonnegative entries on the diagonal (i.e. $\Sigma_{ii} \geq 0$ for $i \in \{1, \dots, \min(m, n)\}$ and $0$ otherwise). Geometrically, this means any linear transformation can be decomposed into a rotation/flip, followed by scaling along orthogonal directions, followed by another rotation/flip.
+
+\subsubsection{Gradient through RNN {\color{blue} [0.5pt]} \LI}
+Let say we have a very simple RNN-like architecture that computes $x_{t+1} = \text{sigmoid}(Wx_t)$. You can view this architecture as a deep fully connected network that uses the same weight matrix at each layer. Suppose the largest singular value of the weight matrix is $\sigma_{max}(W) = \frac{1}{4}$. Show that the largest singular value of the input-output Jacobian has the following bound: {\color{red}$$0 \leq \sigma_{max}(\frac{\partial x_n}{\partial x_1}) \leq (\frac{1}{16})^{n-1}$$} \newline (Hint: if $C=AB$, then $\sigma_{max}(C) \leq \sigma_{max}(A) \sigma_{max}(B)$. Also, the input-output Jacobian is the multiplication of layerwise Jacobians). 
+
+\subsection{Self-Attention}
+
+In a self-attention layer (using scaled dot-product attention), the matrix of outputs is computed as:
+
+$$\operatorname{Attention}(Q, K, V) = \operatorname{softmax}\left(\frac{QK^\top}{\sqrt{d_k}}\right)V$$
+
+where $Q, K, V \in \reals^{n \times d}$ are the query, key, and value matrices, $n$ is the sequence length, and $d_m$ is the embedding dimension.
+
+\subsubsection{Complexity of Self-Attention {\color{blue} [0.5pt]} \LI}
+
+
+Recal from Lecture 8, the total cost for scaled dot-product attention scales quadratically with the sequence length n, i.e., $\bigO{n^2}$. We can generalize the attention equation for any similarity function $sim()$ to the following: 
+
+\begin{equation}
+    \alpha_i = \frac{\sum_{j=1}^{n}{sim(Q_i, K_j)V_j}}{\sum_{j=1}^{n}{sim(Q_i, K_j)}}
+    \label{eq:attention}
+\end{equation}
+
+
+where the subscript of a matrix represents the i-th row as a vector. This is equivalent to the Softmax attention if we substitute $sim(q, k) = exp(\frac{q^T k}{\sqrt{d_k}})$. Note that for this generalized equation to be a valid attention equation, the only constraint on $sim()$ is that it need to be non-negative, which is true for all kernel functions $k(x, y) = \phi(x)^T \phi(y)$, for some feature mapping $\phi()$. Show that by applying kernel functions, attention can be calculated with linear complexity (i.e., $\bigO{n}$). 
+
+\textit{Hint: Sub in the kernel function for the similarity function into Eq \ref{eq:attention}. Group the terms based on their subscript (i.e., $i$ and $j$).
+} 
+
+\subsubsection{Linear Attention with SVD {\color{blue} [0.5pt]} \LII}
+
+It has been empirically shown in Transformer models that the context mapping matrix $P = \operatorname{softmax}\left(\frac{QK^\top}{\sqrt{d_k}}\right)$ often has a low rank. Show that if the rank of $P$ is $k$ and we already have access to the SVD of $P$, then it is possible to compute self-attention in $\bigO{nkd}$ time.
+
+
+\subsubsection{Linear Attention by Projecting [0pt]}
+
+Suppose we ignore the Softmax and scaling and let $P = QK^\top \in \reals^{n\times n}$. Assume $P$ is rank $k$. Show that there exist two linear projection matrices $C, D \in \reals^{k\times n}$ such that $PV = Q(CK)^\top DV$ and the right hand side can be computed in $\bigO{nkd}$ time. \textit{Hint: Consider using SVD in your proof.}
+
+
+\subsection{Bellman Equation}
+The Bellman equation can be seen as a fix point equation to what's called the Bellman Operator. Given a policy $\pi$, the Bellman operators $T^\pi$ for $V: \mathcal {B(S)}  \to \mathcal {B(S)}$ and $T^\pi$ for $Q: \mathcal {B (S \times A)}  \to \mathcal {B (S \times A)}$ are defined as follows:
+
+\begin{align}
+    (T^\pi V)(s) \triangleq r^\pi(S) + \gamma \int \mathcal{P}(s^{\prime} | s,a) \pi(a|s)V(s^{\prime})
+\end{align}
+
+\begin{align}
+    (T^\pi Q)(s,a) \triangleq r(s,a) + \gamma \int \mathcal{P}(s^{\prime} | s,a) \pi(a^{\prime}|s^{\prime})Q(s^{\prime}, a^{\prime})
+\end{align}
+
+\noindent for all $s \in \mathcal {S}$( for $V$) or all $(s,a) \in \mathcal {S} \times \mathcal {A}$( for $Q$).
+
+The Bellman operators have two important properties, 1) monotonicity and 2) $\gamma$-contraction. These properties give us many guarantees such as applying the operator repeatedly will converge to an unique and optimal solution, which is what allow us to show RL algorithms such as Q-Learning converges (under certain additional assumptions, but we won’t go over them here). In this section, we will show that the Bellman operator indeed have these two properties.
+
+
+\subsubsection{} {\color{blue} [0.5pt]} \ Show that the Bellman operator (on $V$) has the monotonicity property. i.e., show that for a fixed policy $\pi$, if $V_1,V_2 \in \mathcal {B(S)}$, and $V_1(s) \leq V_2(s)$ for all $s \in \mathcal{S}$, then we have
+
+\begin{align}
+    T^\pi V_1 \leq T^\pi V_2
+\end{align} \\
+
+\subsubsection{} {\color{blue} [0.5pt]} \ Show that the Bellman operator is a $\gamma$-contraction mapping with the supremum norm (on $Q$). i.e. show that for a discount factor $\gamma$ and $Q_1,Q_2 \in \mathcal {B (S \times A)}$, we have
+
+\begin{align}
+   \| T^\pi (Q_1) - T^\pi (Q_2) \|_{\infty}  \leq \gamma \|  Q_1 - Q_2 \|_{\infty}
+\end{align}
+
+Recall from your math classes, the supremum norm (on $Q$) is as follows:
+
+\begin{align}
+   \| Q \|_{\infty} =\sup_{(s,a) \in \mathcal{S \times A}} |Q(s,a)|
+\end{align}
+
+Hint: for some function $f$, we have the following. For this question, you can think about what is $P$ and $f$ in our case.
+
+\begin{align}
+    \bigg \lvert \int P(x)f(x) \bigg \rvert & \leq \int \lvert  P(x) f(x)\rvert = \int |P(x)| \cdot |f(x)| \notag 
+    \\
+    & \leq \int P(x) \cdot \sup_{x \in \mathcal{X}}|f(x)| \\
+    & = \sup_{x \in \mathcal{X}}|f(x)| \int P(x) = \| f \|_{\infty} \notag
+\end{align}
+
+where in the last line we used the fact $\int P(x) = 1$ \\
+
+\subsubsection{} {\color{blue} [0.5pt]} \ For this question, you may assume knowledge of the reward function $r(s,a)$ and transition probability function $p(s^{\prime}|s,a)$, where $s^{\prime}$ is the next state.
+
+\begin{enumerate}
+\item Give a definition of $v_*(s)$ in terms of $q_* (s,a)$. 
+\item Give a definition of $q_* (s,a)$ in terms of $v_*(s)$. 
+\item Give a definition of $a_*$ in terms of $q_*(s,a)$.
+\item Give a definition of $a_*$ in terms of $v_*(s)$.
+\end{enumerate} \\
+
+
+\subsection{Policy gradients and black box optimization}
+
+Very often we have a function $f$ that does not give us useful gradient information: input or output may be discrete; $f$ may be piecewise constant, nowhere differentiable, or have pathological gradients (e.g., a discontinuous saw wave on an incline, whose gradient always points away from the global optimum); or $f$ may be a black box that we cannot backpropagate through. For example, we may have a phone app that labels photos as cats or dogs. This situation is the default in Reinforcement Learning (RL), where we can execute the environment dynamics, but we cannot see or control their internals.
+
+
+We still, however, want to optimize some score function $J[f]: X \to \mathbb{R}$.  For example, in RL, we want to learn a policy that maximizes the non-differentiable environment reward.
+
+\vspace{0.5em}
+
+
+When using the REINFORCE strategy, we replaced the $\theta$ optimization task with a Monte-Carlo approximation. 
+One of the key factors for a successful REINFORCE application is the \textit{variance}. The higher the variance, the more ``noisy" the gradient estimates will be, which can slow down the optimization process. In this section we will derive the variance of the REINFORCE estimator for a simple toy task. 
+
+Consider a loss function, $f(\tilde{a})$ which is the zero-one loss of the logistic regression output, $p(a|\theta)$. The input vector has $D$ \textit{independent} scalar features, $x_d$. We evaluate the performance of the classifier by sampling from the output of the sigmoid $\mu$. The loss function $J(\theta)$ can be written as:
+\vspace{-0.1in}
+\begin{align}
+\mu &= \sigma\bigg(\sum^{D}_{d=1}\theta_d x_d\bigg), \\
+p(a | \theta) &= Bernoulli(\mu) = \begin{cases} \mu & a = 1 \\ 1-\mu & a = 0 \end{cases}, \\
+\tilde{a} &\sim p(a | \theta), \\
+f(\tilde{a}) &= \begin{cases} 1 & \tilde{a} = 1 \\ 0 & \tilde{a} = 0 \end{cases},\\
+J(\theta) &= \EE_{\tilde{a} \sim p(a | \theta)} [f(\tilde{a})].
+\end{align}
+
+
+\subsubsection{Closed form expression for REINFORCE estimator \color{blue}  [0.5pt]}
+Recall from above that the expression for REINFORCE estimator is:
+\begin{align}
+    \grad_\theta J[\theta] = \EE_{\tilde{a} \sim p(a | \theta)}\left[ f(\tilde{a})  \pd \log p(a = \tilde{a}|\theta) \right]
+\end{align}
+    
+We can denote the expression inside the expectation as  $g[\theta, \mathbf{x}]$:
+\begin{align}
+    g[\theta, \tilde{a}] &= f(\tilde{a})  \pd \log p(a = \tilde{a}|\theta), \quad \tilde{a} \sim p(a | \theta)
+\end{align}
+
+For this question, derive a closed form for the $g[\theta, \tilde{a}]$ as a deterministic function of $\tilde{a}$, $\mu$, $\theta$, and $x_d$. 
+
+\textit{Hint: Substitute in the log likelihood of the Bernoulli distribution.} \\
+
+
+\subsubsection{Variance of REINFORCE estimator \color{black}  [0pt]}
+\label{sec:var_reinforce}
+We will derive the variance of the REINFORCE estimator above. Since the gradient is is $D$-dimensional, the covariance of the gradients will be $D \times D$ matrix. In this question, we will only consider the variance with respect to the first parameter, i.e. $\var[\hat{g}[\theta, \tilde{a}]_1]$ which scalar value corresponding to the first element in the diagonal of the covariance matrix.
+Derive the variance of the gradient estimator as a function of the first parameter vector: $\var[\hat{g}[\theta, \tilde{a}]_1]$, as a function of $\mu$, $\theta$, and $x_d$.
+
+\textit{Hint: The second moment of a Bernoulli random variable is $\mu(1-\mu)$.} \\
+
+
+\subsubsection{Convergence and variance of REINFORCE estimator [0 pt]}
+Comment on the variance in Part~\ref{sec:var_reinforce}. When do we expect learning to converge slowly in terms of the output of the logistic regression model, $\mu$? 
