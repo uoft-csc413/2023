@@ -31,7 +31,7 @@ Suggested readings included help you understand the course material. They are no
 | **Lecture&nbsp;9** | Mar 14  | Large Language Models  | [Slides](assets/slides/lec09.pdf) |  
 | *Tutorial&nbsp;9* | Mar 14  | Large Language Models  | [Slides](assets/tutorials/tut09_llm.pdf) | 
 | **Lecture&nbsp;10** | Mar 21  | Generative Models of Images and Graph Neural Networks|  [Slides](assets/slides/Lec10.pdf)  |  
-| *Tutorial&nbsp;10* | Mar 21  | GANs, VAEs and Diffusion Models  |  | 
+| *Tutorial&nbsp;10* | Mar 21  | Applications of Deep Generative Models | [(Google) Slides](https://docs.google.com/presentation/d/1QFFwUblfXZckWszlzPIrt80jNt6AuahyfsHF4WZSdWs/edit?usp=sharing) | 
 | **Lecture&nbsp;11** | Mar 28  | Q-learning & the Game of Go |  | 
 | *Tutorial&nbsp;11* | Mar 28  | Policy Gradient and Reinforcement Learning  |  | 
 | **Lecture&nbsp;12** | Apr 04  | Recent Trends in Deep Learning | |  
