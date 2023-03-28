@@ -1,0 +1,95 @@
+\section{Robustness and Regularization}
+Adversarial examples plague many machine learning models, and their existence makes the adoption of ML for high-stakes applications undergo increasingly more regulatory scrutiny. The simplest way to generate an adversarial examples is using the untargeted fast gradient sign method (FGSM) from~\cite{goodfellow2014explaining}:
+\begin{align*}
+    \mathbf{x}' \leftarrow \mathbf{x} + \epsilon \; \sign{\gradx \lossfn{\classifier{\bx}{\bw}}{y}} 
+\end{align*}
+
+\noindent where $\bx \in \mathbb{R}^d$ is some training example we want to perturb, $y$ is the label for that example, and $\epsilon$ is a positive scalar chosen to be small enough such that the ground truth class of $\bx'$ is the same as that of $\bx$ according to human perception, yet large enough such that our classifier $f$ misclassifies $\bx'$ while correctly classifying $\bx$. Read about how the $\sign{}$ function works \href{https://en.wikipedia.org/wiki/Sign_function}{here (\url{https://en.wikipedia.org/wiki/Sign_function})}.\\
+
+\noindent Note that we are taking the gradient of $\lossfn{\classifier{\bx}{\bw}}{y}$ with respect to the \textit{input} $\bx$ instead of the weights $\bw$, and that we are adding this gradient rather than subtracting it since the goal here is to increase the loss on $\bx'$. \\
+
+\noindent For the rest of the question, we assume we are dealing with a binary linear classifier that outputs a scalar logit as follows:
+\begin{align*}
+    \classifier{\bx}{\bw} = \bw^{\top}\bx,
+\end{align*}
+\noindent where $\bw \in \mathbb{R}^{d}$ where $d$ is dimension of the input $\bx$, so $f: \mathbb{R}^d \rightarrow \mathbb{R}$. For the remainder of the question, we ignore the loss function, and simply try to reduce the output predicted by the classifier $f$. \\
+
+\noindent To simplify our analysis, assume that the linear classifier outputs a positive logit on the input $\bx$, $\bw^{\top}\bx > 0$. The attack is performed on the outputted logits directly to change the model's prediction from positive to negative. The attack now becomes:
+\begin{align*}
+    \mathbf{x}' \leftarrow \mathbf{x} - \epsilon \; \sign{\gradx \classifier{\bx}{\bw}},
+\end{align*}
+\noindent where we are trying to decrease the outputted logit.
+
+\subsubsection{Prediction under Attack {\color{blue} [1pt]}}
+If we remove the $\sign{}$ function from the FGSM, we are left with just the FGM
+\begin{align*}
+    \bx' \leftarrow \bx - \epsilon \; \gradx \classifier{\bx}{\bw}
+\end{align*}
+
+\noindent Let us construct $\bx'$ using the FGM. Write down the model output under the adversarial attack $\classifier{\bx'}{\bw}$ as a function of $\epsilon, \bx, \bw$ in a closed form. \\
+
+\subsection{Gradient Descent and Weight Decay}
+The most trivial though impractical way of making a classifier robust to adversarial examples is to set $\bw = \mathbf{0}$ such that $\classifier{\bx}{\bw} = 0$ for any $\bx$. However, this just computes a constant function, and is not useful. Intuitively, it looks like the smaller the norm of $\bw$, then less the output will change when changing $\bx$. We explore if this is always the case. 
+
+Suppose we have a design matrix $X \in \mathbb{R}^{n \times d}$ where $n$ is the number of samples and $d$ is the dimensionality, and a target vector $\bt \in \mathbb{R}^{n}$. We can define the objective of linear regression as
+\begin{align*}
+    \min_{\bw} \frac{1}{2n}||X\bw - \bt||_{2}^{2}
+\end{align*}
+\noindent If we penalize the squared $\ell^2$ norm of the weights, we end up with ridge regression:
+\begin{align*}
+    \bw^*_{ridge} = \arg\min_{\bw} \frac{1}{2n}||X\bw - \bt||_{2}^{2} + \lambda ||\bw||_{2}^{2},
+\end{align*}
+where $\lambda$ is the weight decay coefficient, $\lambda > 0$. 
+
+\subsubsection{Closed Form Ridge Regression Solution {\color{blue} [1pt]}}
+Recall the solution to plain regression is $\bw^{*} = (X^{\top}X)^{-1}X^{\top}\bt$. Write down the closed-form solution to ridge regression in matrix form, $\bw^*_{ridge}$. Show your work.
+
+\subsection{Effect of batch size}
+When training neural networks, it is important to select an appropriate batch size. In this question, we will investigate the effect of batch size on some important quantities in neural network training.
+
+\subsubsection{Batch size vs. learning rate}
+Batch size affects the stochasticity in optimization, and therefore affects the choice of learning rate. We demonstrate this via a simple model called the noisy quadratic model (NQM). Despite the simplicity, the NQM captures many essential features in realistic neural network training~\cite{zhang2019algorithmic}. 
+
+For simplicity, we only consider the scalar version of the NQM. We have the quadratic loss $\mathcal{L}(w) = \frac{1}{2} a w^2$, where $a > 0$ and $w \in \mathbb{R}$ is the weight that we would like to optimize. Assume that we only have access to a noisy version of the gradient --- each time when we make a query for the gradient, we obtain $g(w)$, which is the true gradient $\nabla \mathcal{L}(w)$ with additive Guassian noise:
+\begin{align*}
+    g (w) = \nabla \mathcal{L}(w) + \epsilon,~~~~\epsilon \sim \mathcal{N}(0, \sigma^2).
+\end{align*}
+
+One way to reduce noise in the gradient is to use minibatch training. Let $B$ be the batch size, and denote the minibatch gradient as $g_B(w)$:
+\begin{align*}
+    g_B(w) = \frac{1}{B} \sum_{i=1}^B g_i(w),~~\text{where } g_i(w) = \nabla \mathcal{L}(w) + \epsilon_i,~~\epsilon_i \stackrel{i.i.d.}{\sim} \mathcal{N}(0, \sigma^2).
+\end{align*}
+
+\item[(a) {\color{blue} [1pt]}] As batch size increases, how do you expect the optimal learning rate to change? Briefly explain in 2-3 sentences.
+    
+    {\it (Hint: Think about how the minibatch gradient noise change with $B$.)}
+
+\subsubsection{Training steps vs. batch size}\label{sec:training_steps_vs_bs}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{figures/q2/shallue_cartoon.png}
+    \caption{A cartoon illustration of the typical relationship between training steps and the batch size for reaching a certain validation loss (based on~\cite{shallue2018measuring}). Learning rate and other related hyperparameters are tuned for each point on the curve.}
+    \label{fig:steps_vs_bs}
+\end{figure}
+For most of neural network training in the real-world applications, we often observe the relationship of training steps and batch size for reaching a certain validation loss as illustrated in Figure~\ref{fig:steps_vs_bs}.
+\begin{enumerate}
+    \item[(a) {\color{blue} [1pt]}] For the three points ($A, B, C$) on Figure~\ref{fig:steps_vs_bs}, which one has the most efficient batch size (in terms of best resource and training time trade-off)? Assume that you have access to scalable  (but not free) compute such that minibatches are parallelized efficiently. Briefly explain in 1-2 sentences.
+    \ifsolution
+    \textcolor{blue}{Solution: C. For batch sizes smaller than C, increasing the batch size can reduce the training time without much change in total compute (perfect scaling). If we increase the batch size beyond C, the reduction in training time is minimal, and we will spend more compute.}
+    \fi
+    \item[(b) {\color{blue} [1pt]}] Figure~\ref{fig:steps_vs_bs} demonstrates that there are often two regimes in neural network training: the noise dominated regime and the curvature dominated regime. In the noise dominated regime, the bottleneck for optimization is that there exists a large amount of gradient noise. In the curvature dominated regime, the bottleneck of optimization is the ill-conditioned loss landscape. For points A and B on Figure~\ref{fig:steps_vs_bs}, which regimes do they belong to, and what would you do to accelerate training? Fill each of the blanks with \textbf{one} best suited option.
+    
+    \textbf{Point A:} Regime: \rule{2cm}{0.15mm}. Potential way to accelerate training: \rule{2cm}{0.15mm}.
+    
+    \textbf{Point B:} Regime: \rule{2cm}{0.15mm}. Potential way to accelerate training: \rule{2cm}{0.15mm}.
+    
+    Options:
+    \begin{itemize}
+        \item Regimes: noise dominated / curvature dominated.
+        \item Potential ways to accelerate training: use higher order optimizers / seek parallel compute
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Model size, dataset size and compute}\label{sec:size_compute}
+We have seen in the previous section that batch size is an important hyperparameter during training. Besides efficiently minimizing the training loss, we are also interested in the test loss. Recently, researchers have observed an intriguing relationship between the test loss and hyperparameters such as the model size, dataset size and the amount of compute used. We explore this relationship for neural language models in this section. The figures in this question are from~\cite{kaplan2020scaling}.
