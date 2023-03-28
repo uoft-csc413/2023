@@ -32,6 +32,6 @@ Suggested readings included help you understand the course material. They are no
 | *Tutorial&nbsp;9* | Mar 14  | Large Language Models  | [Slides](assets/tutorials/tut09_llm.pdf) | 
 | **Lecture&nbsp;10** | Mar 21  | Generative Models of Images and Graph Neural Networks|  [Slides](assets/slides/Lec10.pdf)  |  
 | *Tutorial&nbsp;10* | Mar 21  | Applications of Deep Generative Models | [(Google) Slides](https://docs.google.com/presentation/d/1QFFwUblfXZckWszlzPIrt80jNt6AuahyfsHF4WZSdWs/edit?usp=sharing) | 
-| **Lecture&nbsp;11** | Mar 28  | Q-learning & the Game of Go |  | 
-| *Tutorial&nbsp;11* | Mar 28  | Policy Gradient and Reinforcement Learning  |  | 
+| **Lecture&nbsp;11** | Mar 28  | Q-learning & the Game of Go | [Slides](assets/slides/lec11.pdf) | Related papers: [Deep Q Network](https://arxiv.org/pdf/1312.5602.pdf), [AlphaGo](http://clm.utexas.edu/compjclub/wp-content/uploads/2016/10/silver2016.pdf), [AlphaZero](http://discovery.ucl.ac.uk/10045895/1/agz_unformatted_nature.pdf). 
+| *Tutorial&nbsp;11* | Mar 28  | Reinforcement Learning  | [Slides](assets/tutorials/tut11_rl.pdf) | 
 | **Lecture&nbsp;12** | Apr 04  | Recent Trends in Deep Learning | |  
