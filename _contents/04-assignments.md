@@ -12,7 +12,7 @@ image: ""
 | **Assignment 2**   | [pdf](assets/assignments/a2.pdf), [starter code](https://colab.research.google.com/github/uoft-csc413/2023/blob/master/assets/assignments/a2-code.ipynb)(make a copy in your own Drive)   | Jan. 29(out), due Feb. 24
 | **Assignment 3**   | [pdf](assets/assignments/a3.pdf), [nmt.ipynb](https://colab.research.google.com/github/uoft-csc413/2023/blob/master/assets/assignments/nmt.ipynb), [bert.ipynb](https://colab.research.google.com/github/uoft-csc413/2023/blob/master/assets/assignments/bert.ipynb), [clip.ipynb](https://colab.research.google.com/github/uoft-csc413/2023/blob/master/assets/assignments/clip.ipynb)(make a copy in your own Drive)  | <s>Feb. 19(out), due Mar. 24</s> Mar. 04(out), due Mar. 31
 | **Assignment 4**   |  [pdf](assets/assignments/a4.pdf), [gnn.ipynb](https://colab.research.google.com/github/uoft-csc413/2023/blob/master/assets/assignments/gnn.ipynb), [dqn.ipynb](https://colab.research.google.com/github/uoft-csc413/2023/blob/master/assets/assignments/dqn.ipynb)  | <s>Mar. 12(out), due Apr. 07</s> Mar. 17(out), due Apr. 11
-| **Course Project**   |  [handout](assets/misc/project_handout.pdf)     | due Apr. 14
+| **Course Project**   |  [handout](assets/misc/project_handout.pdf)     | <s>due Apr. 14</s> due Apr. 19 (Peer review due Apr. 22)
 
 <br/> 
 
